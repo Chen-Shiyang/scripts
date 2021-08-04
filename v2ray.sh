@@ -991,7 +991,7 @@ vmessConfig() {
     "settings": {
       "clients": [
         {
-          "id": "$uuid",
+          "id": "119a6b79-8308-5416-9eca-9f93225b52d1",
           "level": 1,
           "alterId": $alterid
         }
@@ -1030,7 +1030,7 @@ vmessKCPConfig() {
     "settings": {
       "clients": [
         {
-          "id": "$uuid",
+          "id": "119a6b79-8308-5416-9eca-9f93225b52d1",
           "level": 1,
           "alterId": $alterid
         }
@@ -1080,7 +1080,7 @@ vmessTLSConfig() {
     "settings": {
       "clients": [
         {
-          "id": "$uuid",
+          "id": "119a6b79-8308-5416-9eca-9f93225b52d1",
           "level": 1,
           "alterId": 0
         }
@@ -1134,7 +1134,7 @@ vmessWSConfig() {
     "settings": {
       "clients": [
         {
-          "id": "$uuid",
+          "id": "119a6b79-8308-5416-9eca-9f93225b52d1",
           "level": 1,
           "alterId": 0
         }
@@ -1182,7 +1182,7 @@ vlessTLSConfig() {
     "settings": {
       "clients": [
         {
-          "id": "$uuid",
+          "id": "119a6b79-8308-5416-9eca-9f93225b52d1",
           "level": 0
         }
       ],
@@ -1244,7 +1244,7 @@ vlessXTLSConfig() {
     "settings": {
       "clients": [
         {
-          "id": "$uuid",
+          "id": "119a6b79-8308-5416-9eca-9f93225b52d1",
           "flow": "$FLOW",
           "level": 0
         }
@@ -1308,7 +1308,7 @@ vlessWSConfig() {
     "settings": {
         "clients": [
             {
-                "id": "$uuid",
+                "id": "119a6b79-8308-5416-9eca-9f93225b52d1",
                 "level": 0
             }
         ],
@@ -1356,7 +1356,7 @@ vlessKCPConfig() {
     "settings": {
       "clients": [
         {
-          "id": "$uuid",
+          "id": "119a6b79-8308-5416-9eca-9f93225b52d1",
           "level": 0
         }
       ],
