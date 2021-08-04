@@ -981,12 +981,6 @@ EOF
 }
 
 vmessConfig() {
-    # local uuid="$(cat '/proc/sys/kernel/random/uuid')"
-    # # Generate custom uuid in python
-    # import uuid
-
-    # UUID_NAMESPACE = uuid.UUID('00000000-0000-0000-0000-000000000000')
-    # uuid.uuid5(UUID_NAMESPACE, "Aa112211")
     local uuid="119a6b79-8308-5416-9eca-9f93225b52d1"
     local alterid=`shuf -i50-80 -n1`
     cat > $CONFIG_FILE<<-EOF
@@ -1026,12 +1020,6 @@ EOF
 }
 
 vmessKCPConfig() {
-    # local uuid="$(cat '/proc/sys/kernel/random/uuid')"
-    # # Generate custom uuid in python
-    # import uuid
-
-    # UUID_NAMESPACE = uuid.UUID('00000000-0000-0000-0000-000000000000')
-    # uuid.uuid5(UUID_NAMESPACE, "Aa112211")
     local uuid="119a6b79-8308-5416-9eca-9f93225b52d1"
     local alterid=`shuf -i50-80 -n1`
     cat > $CONFIG_FILE<<-EOF
@@ -1083,12 +1071,6 @@ EOF
 }
 
 vmessTLSConfig() {
-    # local uuid="$(cat '/proc/sys/kernel/random/uuid')"
-    # # Generate custom uuid in python
-    # import uuid
-
-    # UUID_NAMESPACE = uuid.UUID('00000000-0000-0000-0000-000000000000')
-    # uuid.uuid5(UUID_NAMESPACE, "Aa112211")
     local uuid="119a6b79-8308-5416-9eca-9f93225b52d1"
     cat > $CONFIG_FILE<<-EOF
 {
@@ -1142,12 +1124,6 @@ EOF
 }
 
 vmessWSConfig() {
-    # local uuid="$(cat '/proc/sys/kernel/random/uuid')"
-    # # Generate custom uuid in python
-    # import uuid
-
-    # UUID_NAMESPACE = uuid.UUID('00000000-0000-0000-0000-000000000000')
-    # uuid.uuid5(UUID_NAMESPACE, "Aa112211")
     local uuid="119a6b79-8308-5416-9eca-9f93225b52d1"
     cat > $CONFIG_FILE<<-EOF
 {
@@ -1197,12 +1173,6 @@ EOF
 }
 
 vlessTLSConfig() {
-    # local uuid="$(cat '/proc/sys/kernel/random/uuid')"
-    # # Generate custom uuid in python
-    # import uuid
-
-    # UUID_NAMESPACE = uuid.UUID('00000000-0000-0000-0000-000000000000')
-    # uuid.uuid5(UUID_NAMESPACE, "Aa112211")
     local uuid="119a6b79-8308-5416-9eca-9f93225b52d1"
     cat > $CONFIG_FILE<<-EOF
 {
@@ -1265,12 +1235,6 @@ EOF
 }
 
 vlessXTLSConfig() {
-    # local uuid="$(cat '/proc/sys/kernel/random/uuid')"
-    # # Generate custom uuid in python
-    # import uuid
-
-    # UUID_NAMESPACE = uuid.UUID('00000000-0000-0000-0000-000000000000')
-    # uuid.uuid5(UUID_NAMESPACE, "Aa112211")
     local uuid="119a6b79-8308-5416-9eca-9f93225b52d1"
     cat > $CONFIG_FILE<<-EOF
 {
@@ -1334,12 +1298,6 @@ EOF
 }
 
 vlessWSConfig() {
-    # local uuid="$(cat '/proc/sys/kernel/random/uuid')"
-    # # Generate custom uuid in python
-    # import uuid
-
-    # UUID_NAMESPACE = uuid.UUID('00000000-0000-0000-0000-000000000000')
-    # uuid.uuid5(UUID_NAMESPACE, "Aa112211")
     local uuid="119a6b79-8308-5416-9eca-9f93225b52d1"
     cat > $CONFIG_FILE<<-EOF
 {
@@ -1389,12 +1347,6 @@ EOF
 }
 
 vlessKCPConfig() {
-    # local uuid="$(cat '/proc/sys/kernel/random/uuid')"
-    # # Generate custom uuid in python
-    # import uuid
-
-    # UUID_NAMESPACE = uuid.UUID('00000000-0000-0000-0000-000000000000')
-    # uuid.uuid5(UUID_NAMESPACE, "Aa112211")
     local uuid="119a6b79-8308-5416-9eca-9f93225b52d1"
     cat > $CONFIG_FILE<<-EOF
 {
