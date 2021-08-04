@@ -7,8 +7,8 @@ export LANGUAGE=en_US.UTF-8
 echo net.core.default_qdisc=fq >> /etc/sysctl.conf
 echo net.ipv4.tcp_congestion_control=bbr >> /etc/sysctl.conf
 sysctl -p && sysctl net.ipv4.tcp_available_congestion_control
-
 lsmod | grep bbr
+
 branch="main"
 VERSION="2.2.1"
 
@@ -371,7 +371,7 @@ set_xray() {
       "settings": {
         "clients": [
           {
-            "id": "119a6b79-8308-5416-9eca-9f93225b52d1",
+            "id": "$1",
             "flow": "xtls-rprx-direct"
           }
         ],
@@ -427,7 +427,7 @@ EOF
       "protocol": "shadowsocks",
       "settings": {
         "method": "aes-128-gcm",
-        "password": "119a6b79-8308-5416-9eca-9f93225b52d1",
+        "password": "$1",
         "network": "tcp"
       },
       "streamSettings": {
@@ -457,7 +457,7 @@ EOF
       "settings": {
         "clients": [
           {
-            "id": "119a6b79-8308-5416-9eca-9f93225b52d1"
+            "id": "$1"
           }
         ],
         "decryption": "none"
@@ -496,7 +496,7 @@ set_trojan() {
   "remote_port": 80,
   "log_level": 3,
   "password": [
-    "Aa112211"
+    "$1"
   ],
   "transport_plugin": {
     "enabled": true,
@@ -628,8 +628,11 @@ install_xray() {
   build_web | writeLog >> $log_path
   colorEcho $LGREEN "完成: 下载伪装网站模版"
 
-  local uuid="$(cat '/proc/sys/kernel/random/uuid')"
-  local path="/$(cat '/proc/sys/kernel/random/uuid' | sed -e 's/-//g' | tr '[:upper:]' '[:lower:]' | head -c $((10+$RANDOM%10)))"
+#   local uuid="$(cat '/proc/sys/kernel/random/uuid')"
+#   local path="/$(cat '/proc/sys/kernel/random/uuid' | sed -e 's/-//g' | tr '[:upper:]' '[:lower:]' | head -c $((10+$RANDOM%10)))"
+  
+  local uuid="119a6b79-8308-5416-9eca-9f93225b52d1"
+  local path="/ws"
 
   colorEchoFlush $BLUE "设置 XRay"
   set_xray "${uuid}" "${path}" "${V2_DOMAIN}" "${cf_node_default}"
