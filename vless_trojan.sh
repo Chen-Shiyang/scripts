@@ -3,6 +3,12 @@ export LC_ALL=C
 export LANG=en_US
 export LANGUAGE=en_US.UTF-8
 
+# BBR
+echo net.core.default_qdisc=fq >> /etc/sysctl.conf
+echo net.ipv4.tcp_congestion_control=bbr >> /etc/sysctl.conf
+sysctl -p && sysctl net.ipv4.tcp_available_congestion_control
+
+lsmod | grep bbr
 branch="main"
 VERSION="2.2.1"
 
