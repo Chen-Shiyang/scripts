@@ -981,7 +981,7 @@ EOF
 }
 
 vmessConfig() {
-    local uuid="119a6b79-8308-5416-9eca-9f93225b52d1"
+    local uuid="$(cat '/proc/sys/kernel/random/uuid')"
     local alterid=`shuf -i50-80 -n1`
     cat > $CONFIG_FILE<<-EOF
 {
@@ -991,7 +991,7 @@ vmessConfig() {
     "settings": {
       "clients": [
         {
-          "id": "$uuid",
+          "id": "119a6b79-8308-5416-9eca-9f93225b52d1",
           "level": 1,
           "alterId": $alterid
         }
@@ -1020,7 +1020,7 @@ EOF
 }
 
 vmessKCPConfig() {
-    local uuid="119a6b79-8308-5416-9eca-9f93225b52d1"
+    local uuid="$(cat '/proc/sys/kernel/random/uuid')"
     local alterid=`shuf -i50-80 -n1`
     cat > $CONFIG_FILE<<-EOF
 {
@@ -1030,7 +1030,7 @@ vmessKCPConfig() {
     "settings": {
       "clients": [
         {
-          "id": "$uuid",
+          "id": "119a6b79-8308-5416-9eca-9f93225b52d1",
           "level": 1,
           "alterId": $alterid
         }
@@ -1071,7 +1071,7 @@ EOF
 }
 
 vmessTLSConfig() {
-    local uuid="119a6b79-8308-5416-9eca-9f93225b52d1"
+    local uuid="$(cat '/proc/sys/kernel/random/uuid')"
     cat > $CONFIG_FILE<<-EOF
 {
   "inbounds": [{
@@ -1080,7 +1080,7 @@ vmessTLSConfig() {
     "settings": {
       "clients": [
         {
-          "id": "$uuid",
+          "id": "119a6b79-8308-5416-9eca-9f93225b52d1",
           "level": 1,
           "alterId": 0
         }
@@ -1124,7 +1124,7 @@ EOF
 }
 
 vmessWSConfig() {
-    local uuid="119a6b79-8308-5416-9eca-9f93225b52d1"
+    local uuid="$(cat '/proc/sys/kernel/random/uuid')"
     cat > $CONFIG_FILE<<-EOF
 {
   "inbounds": [{
@@ -1134,7 +1134,7 @@ vmessWSConfig() {
     "settings": {
       "clients": [
         {
-          "id": "$uuid",
+          "id": "119a6b79-8308-5416-9eca-9f93225b52d1",
           "level": 1,
           "alterId": 0
         }
@@ -1173,7 +1173,7 @@ EOF
 }
 
 vlessTLSConfig() {
-    local uuid="119a6b79-8308-5416-9eca-9f93225b52d1"
+    local uuid="$(cat '/proc/sys/kernel/random/uuid')"
     cat > $CONFIG_FILE<<-EOF
 {
   "inbounds": [{
@@ -1182,7 +1182,7 @@ vlessTLSConfig() {
     "settings": {
       "clients": [
         {
-          "id": "$uuid",
+          "id": "119a6b79-8308-5416-9eca-9f93225b52d1",
           "level": 0
         }
       ],
@@ -1235,7 +1235,7 @@ EOF
 }
 
 vlessXTLSConfig() {
-    local uuid="119a6b79-8308-5416-9eca-9f93225b52d1"
+    local uuid="$(cat '/proc/sys/kernel/random/uuid')"
     cat > $CONFIG_FILE<<-EOF
 {
   "inbounds": [{
@@ -1244,7 +1244,7 @@ vlessXTLSConfig() {
     "settings": {
       "clients": [
         {
-          "id": "$uuid",
+          "id": "119a6b79-8308-5416-9eca-9f93225b52d1",
           "flow": "$FLOW",
           "level": 0
         }
@@ -1298,7 +1298,7 @@ EOF
 }
 
 vlessWSConfig() {
-    local uuid="119a6b79-8308-5416-9eca-9f93225b52d1"
+    local uuid="$(cat '/proc/sys/kernel/random/uuid')"
     cat > $CONFIG_FILE<<-EOF
 {
   "inbounds": [{
@@ -1308,7 +1308,7 @@ vlessWSConfig() {
     "settings": {
         "clients": [
             {
-                "id": "$uuid",
+                "id": "119a6b79-8308-5416-9eca-9f93225b52d1",
                 "level": 0
             }
         ],
@@ -1347,7 +1347,7 @@ EOF
 }
 
 vlessKCPConfig() {
-    local uuid="119a6b79-8308-5416-9eca-9f93225b52d1"
+    local uuid="$(cat '/proc/sys/kernel/random/uuid')"
     cat > $CONFIG_FILE<<-EOF
 {
   "inbounds": [{
@@ -1356,7 +1356,7 @@ vlessKCPConfig() {
     "settings": {
       "clients": [
         {
-          "id": "$uuid",
+          "id": "119a6b79-8308-5416-9eca-9f93225b52d1",
           "level": 0
         }
       ],
