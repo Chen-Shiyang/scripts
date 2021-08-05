@@ -5,6 +5,12 @@ export LC_ALL=C
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 
+# BBR
+echo net.core.default_qdisc=fq >> /etc/sysctl.conf
+echo net.ipv4.tcp_congestion_control=bbr >> /etc/sysctl.conf
+sysctl -p && sysctl net.ipv4.tcp_available_congestion_control
+lsmod | grep bbr
+
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
   sudoCmd="sudo"
 else
@@ -940,9 +946,8 @@ function isTrojanGoInstall(){
 function compareRealIpWithLocalIp(){
     echo
     echo
-    green " 是否检测域名指向的IP正确 (默认检测，如果域名指向的IP不是本机器IP则无法继续. 如果已开启CDN不方便关闭可以选择否)"
-    read -p "是否检测域名指向的IP正确? 请输入[Y/n]:" isDomainValidInput
-    isDomainValidInput=${isDomainValidInput:-Y}
+
+    isDomainValidInput="y"
 
     if [[ $isDomainValidInput == [Yy] ]]; then
         if [ -n $1 ]; then
@@ -1040,11 +1045,7 @@ function getHTTPSCertificate(){
 	curl https://get.acme.sh | sh
 
     echo
-    green " ================================================== "
-    green "请选择 acme.sh 脚本申请SSL证书方式: 1 http方式, 2 dns方式 "
-    green "默认直接回车为 http 申请方式, 选否则为 dns 方式"
-    read -r -p "请选择SSL证书申请方式 ? 默认直接回车为http方式, 选否则为 dns 方式申请证书, 请输入[Y/n]:" isSSLRequestMethodHttpInput
-    isSSLRequestMethodHttpInput=${isSSLRequestMethodHttpInput:-Y}
+    isSSLRequestMethodHttpInput="y"
 
     echo
     if [[ $isSSLRequestMethodHttpInput == [Yy] ]]; then
@@ -1482,13 +1483,10 @@ function installTrojanV2rayWithNginx(){
     read configSSLDomain
 
     echo
-    green "是否申请证书? 默认为自动申请证书, 如果二次安装或已有证书 可以选否"
-    green "如果已经有SSL证书文件请放到下面路径"
-    red " ${configSSLDomain} 域名证书内容文件路径 ${configSSLCertPath}/${configSSLCertFullchainFilename} "
-    red " ${configSSLDomain} 域名证书私钥文件路径 ${configSSLCertPath}/${configSSLCertKeyFilename} "
+
     echo
-    read -p "是否申请证书? 默认为自动申请证书,如果二次安装或已有证书可以选否 请输入[Y/n]:" isDomainSSLRequestInput
-    isDomainSSLRequestInput=${isDomainSSLRequestInput:-Y}
+
+    isDomainSSLRequestInput="Y"
 
     if compareRealIpWithLocalIp "${configSSLDomain}" ; then
         if [[ $isDomainSSLRequestInput == [Yy] ]]; then
@@ -1536,27 +1534,6 @@ function installTrojanV2rayWithNginx(){
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function installTrojanServer(){
 
     trojanPassword1="Aa112211"
@@ -1580,13 +1557,7 @@ function installTrojanServer(){
     fi
 
 
-    green " =================================================="
-    green " 开始安装 Trojan${promptInfoTrojanName} Version: ${configTrojanBaseVersion} !"
-    yellow " 请输入trojan密码的前缀? (会生成若干随机密码和带有该前缀的密码)"
-    green " =================================================="
-
-    read configTrojanPasswordPrefixInput
-    configTrojanPasswordPrefixInput=${configTrojanPasswordPrefixInput:-jin}
+    configTrojanPasswordPrefixInput=""
 
 
     if [ "$configV2rayVlessMode" != "trojan" ] ; then
@@ -2113,8 +2084,7 @@ function upgradeTrojan(){
 function inputV2rayWSPath(){ 
     configV2rayWebSocketPath=$(cat /dev/urandom | head -1 | md5sum | head -c 8)
 
-    read -p "是否自定义${promptInfoXrayName}的WS的Path? 直接回车默认创建随机路径, 请输入自定义路径(不要输入/):" isV2rayUserWSPathInput
-    isV2rayUserWSPathInput=${isV2rayUserWSPathInput:-${configV2rayWebSocketPath}}
+    isV2rayUserWSPathInput="Aa112211"
 
     if [[ -z $isV2rayUserWSPathInput ]]; then
         echo
@@ -2140,8 +2110,8 @@ function inputV2rayGRPCPath(){
 function inputV2rayServerPort(){  
     echo
 	if [[ $1 == "textMainPort" ]]; then
-        read -p "是否自定义${promptInfoXrayName}的端口号? 直接回车默认为${configV2rayPortShowInfo}, 请输入自定义端口号[1-65535]:" isV2rayUserPortInput
-        isV2rayUserPortInput=${isV2rayUserPortInput:-${configV2rayPortShowInfo}}
+
+        isV2rayUserPortInput=${configV2rayPortShowInfo}
 		checkPortInUse "${isV2rayUserPortInput}" $1 
 	fi
 
@@ -2162,10 +2132,7 @@ function inputV2rayServerPort(){
 
 
     if [[ $1 == "textMainTrojanPort" ]]; then
-        green "是否自定义Trojan${promptInfoTrojanName}的端口号? 直接回车默认为${configV2rayTrojanPort}"
-        red "不建议用户自定义端口, 建议使用443端口, 除非你需要使用非443端口并明白使用非443端口的安全性!"
-        read -p "是否自定义${promptInfoTrojanName}的端口号? 直接回车默认为${configV2rayTrojanPort}, 请输入自定义端口号[1-65535]:" isTrojanUserPortInput
-        isTrojanUserPortInput=${isTrojanUserPortInput:-${configV2rayTrojanPort}}
+        isTrojanUserPortInput="443"
 		checkPortInUse "${isTrojanUserPortInput}" $1 
 	fi    
 }
@@ -2223,8 +2190,7 @@ function installV2ray(){
         promptInfoXrayName="xray"
         isXray="yes"
     else
-        read -p "是否使用Xray内核? 直接回车默认为V2ray内核, 请输入[y/N]:" isV2rayOrXrayInput
-        isV2rayOrXrayInput=${isV2rayOrXrayInput:-n}
+        isV2rayOrXrayInput="y"
 
         if [[ $isV2rayOrXrayInput == [Yy] ]]; then
             promptInfoXrayName="xray"
@@ -2238,8 +2204,7 @@ function installV2ray(){
     else 
 
         echo
-        read -p "是否使用VLESS协议? 直接回车默认为VMess协议, 请输入[y/N]:" isV2rayUseVLessInput
-        isV2rayUseVLessInput=${isV2rayUseVLessInput:-n}
+        isV2rayUseVLessInput="y"
 
         if [[ $isV2rayUseVLessInput == [Yy] ]]; then
             configV2rayProtocol="vless"
@@ -2249,24 +2214,7 @@ function installV2ray(){
 
     fi
 
-    echo
-    green " =================================================="
-    yellow " 是否使用 IPv6 解锁流媒体和避免弹出 Google reCAPTCHA 人机验证, 请选择:"
-    green " 推荐选择1 不解锁. 解锁需要安装好 Wireguard 与 Cloudflare Warp, 可重新运行本脚本选择第一项安装".
-    red " 推荐先安装 Wireguard 与 Cloudflare Warp 后,再安装v2ray或xray. 实际上先安装v2ray或xray, 后安装Wireguard 与 Cloudflare Warp也没问题"
-    red " 但如果先安装v2ray或xray, 下面选了非第一项,那么会暂时无法访问google和其他视频网站, 需要继续安装Wireguard 与 Cloudflare Warp 解决"
-    echo
-    green " 1. 不解锁"
-    green " 2. 避免弹出 Google reCAPTCHA 人机验证"
-    green " 3. 解锁 Netflex 限制"
-    green " 4. 解锁 Youtube 和 Youtube Premium"
-    green " 5. 解锁 全部流媒体 包括 Netflex, Youtube, Hulu, HBO, Disney, BBC, Fox, niconico 等"
-    green " 11. 同时解锁 2 和 3 项,  即为 避免弹出 Google reCAPTCHA 人机验证 和 解锁 Netflex 限制"
-    green " 12. 同时解锁 2 和 3 和 4 项, 即为 避免弹出 Google reCAPTCHA 人机验证 和 解锁 Netflex 和 Youtube 限制"
-    green " 13. 同时解锁 全部流媒体 和 避免弹出 Google reCAPTCHA 人机验证"
-    echo
-    read -p "请输入解锁选项? 直接回车默认选1 不解锁, 请输入纯数字:" isV2rayUnlockGoogleInput
-    isV2rayUnlockGoogleInput=${isV2rayUnlockGoogleInput:-1}
+    isV2rayUnlockGoogleInput="1"
 
     V2rayUnlockText=""
 
@@ -2297,8 +2245,7 @@ function installV2ray(){
 
 					
     echo
-    read -p "是否自定义${promptInfoXrayName}的密码? 直接回车默认创建随机密码, 请输入自定义UUID密码:" isV2rayUserPassordInput
-    isV2rayUserPassordInput=${isV2rayUserPassordInput:-''}
+    isV2rayUserPassordInput=""
 
     if [[ -z $isV2rayUserPassordInput ]]; then
         isV2rayUserPassordInput=""
@@ -4280,8 +4227,7 @@ function getHTTPSNoNgix(){
 
     read configSSLDomain
 
-    read -p "是否申请证书? 默认为自动申请证书,如果二次安装或已有证书可以选否 请输入[Y/n]:" isDomainSSLRequestInput
-    isDomainSSLRequestInput=${isDomainSSLRequestInput:-Y}
+    isDomainSSLRequestInput="y"
 
     isInstallNginx="false"
 
@@ -4289,9 +4235,7 @@ function getHTTPSNoNgix(){
         if [[ $isDomainSSLRequestInput == [Yy] ]]; then
 
             echo
-            green "是否使用 standalone 方式申请证书? 需要80端口没有被占用, 如已安装nginx或其他web服务器可通过webroot模式安装"
-            read -p "是否使用standalone方式申请证书? 直接回车默认standalone, 选否则通过webroot模式申请证书, 请输入[Y/n]:" isDomainSSLWebrootInput
-            isDomainSSLWebrootInput=${isDomainSSLWebrootInput:-Y}
+            isDomainSSLWebrootInput="y"
             if [[ $isDomainSSLWebrootInput == [Yy] ]]; then
                 getHTTPSCertificate "standalone"
             else
@@ -4340,278 +4284,6 @@ function getHTTPSNoNgix(){
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function startMenuOther(){
-    clear
-    green " =================================================="
-    green " 1. 安装 trojan-web (trojan 和 trojan-go 可视化管理面板) 和 nginx 伪装网站"
-    green " 2. 升级 trojan-web 到最新版本"
-    green " 3. 重新申请证书"
-    green " 4. 查看日志, 管理用户, 查看配置等功能"
-    red " 5. 卸载 trojan-web 和 nginx "
-    echo
-    green " 6. 安装 V2ray 可视化管理面板V2-UI, 可以同时支持trojan"
-    green " 7. 升级 V2-UI 到最新版本"
-    red " 8. 卸载 V2-UI"
-    green " 9. 安装 Xray 可视化管理面板 X-UI, 可以同时支持trojan"
-    red " 10. 升级 或 卸载 X-UI"
-    echo
-    red " 安装上面3个可视化管理面板 之前不能用本脚本或其他脚本安装过trojan或v2ray! 3个管理面板也无法同时安装"
-
-    green " =================================================="
-    green " 11. 单独申请域名SSL证书"
-    green " 12. 只安装trojan 运行在443端口, 不安装nginx, 请确保443端口没有被nginx占用"
-    green " 13. 只安装trojan-go 运行在443端口, 不支持CDN, 不开启websocket, 不安装nginx. 请确保80端口有监听,否则trojan-go无法启动"
-    green " 14. 只安装trojan-go 运行在443端口, 支持CDN, 开启websocket, 不安装nginx. 请确保80端口有监听,否则trojan-go无法启动"    
-    echo
-    green " 15. 只安装V2ray或Xray (VLess或VMess协议) 开启websocket, 支持CDN, (VLess/VMess + WS) 不安装nginx,无TLS加密,方便与现有网站或宝塔面板集成"
-    green " 16. 只安装V2ray或Xray (VLess或VMess协议) 开启grpc, 支持cloudflare的CDN需要指定443端口, (VLess/VMess + grpc) 不安装nginx,无TLS加密,方便与现有网站或宝塔面板集成"
-    echo
-    green " 17. 只安装V2ray VLess运行在443端口 (VLess-gRPC-TLS) 支持CDN, 不安装nginx"
-    green " 18. 只安装V2ray VLess运行在443端口 (VLess-TCP-TLS) + (VLess-WS-TLS) 支持CDN, 不安装nginx"
-    green " 19. 只安装V2ray VLess运行在443端口 (VLess-TCP-TLS) + (VMess-TCP-TLS) + (VMess-WS-TLS) 支持CDN, 不安装nginx"
-    echo
-    green " 21. 只安装Xray VLess运行在443端口 (VLess-TCP-XTLS direct) + (VLess-WS-TLS) 支持CDN, 不安装nginx" 
-    green " 22. 只安装Xray VLess运行在443端口 (VLess-TCP-XTLS direct) + (VLess-WS-TLS) + trojan, 支持VLess的CDN, 不安装nginx"    
-    green " 23. 只安装Xray VLess运行在443端口 (VLess-TCP-XTLS direct) + (VLess-WS-TLS) + trojan-go, 支持VLess的CDN, 不安装nginx"   
-    green " 24. 只安装Xray VLess运行在443端口 (VLess-TCP-XTLS direct) + (VLess-WS-TLS) + trojan-go, 支持VLess的CDN和trojan-go的CDN, 不安装nginx"   
-    green " 25. 只安装Xray VLess运行在443端口 (VLess-TCP-XTLS direct) + (VLess-WS-TLS) + xray自带的trojan, 支持VLess的CDN, 不安装nginx"    
-
-    red " 27. 卸载 trojan"    
-    red " 28. 卸载 trojan-go"   
-    red " 29. 卸载 v2ray或Xray"   
-    green " =================================================="
-    red " 以下是 VPS 测网速工具, 脚本测速会消耗大量 VPS 流量，请悉知！"
-    green " 41. superspeed 三网纯测速 （全国各地三大运营商部分节点全面测速）"
-    green " 42. 由teddysun 编写的Bench 综合测试 （包含系统信息 IO 测试 多处数据中心的节点测试 ）"
-	green " 43. testrace 回程路由测试 （四网路由测试）"
-	green " 44. LemonBench 快速全方位测试 （包含CPU内存性能、回程、速度）"
-    green " 45. ZBench 综合网速测试 （包含节点测速, Ping 以及 路由测试）"
-    echo
-    green " 51. 测试VPS 是否支持Netflix, 检测IP解锁范围及对应所在的地区"
-    echo
-    green " 61. 安装 官方宝塔面板"
-    green " 62. 安装 宝塔面板破解版 by fenhao.me"
-    green " 63. 安装 宝塔面板 7.4.5 纯净版 by hostcli.com"
-    echo
-    green " 9. 返回上级菜单"
-    green " 0. 退出脚本"
-    echo
-    read -p "请输入数字:" menuNumberInput
-    case "$menuNumberInput" in
-        1 )
-            setLinuxDateZone
-            installTrojanWeb
-        ;;
-        2 )
-            upgradeTrojanWeb
-        ;;
-        3 )
-            runTrojanWebSSL
-        ;;
-        4 )
-            runTrojanWebLog
-        ;;
-        5 )
-            removeNginx
-            removeTrojanWeb
-        ;;
-        6 )
-            setLinuxDateZone
-            installV2rayUI
-        ;;
-        7 )
-            upgradeV2rayUI
-        ;;
-        8 )
-            removeV2rayUI
-        ;;
-        9 )
-            setLinuxDateZone
-            installXUI
-        ;;  
-        10 )
-            removeXUI
-        ;;              
-        11 )
-            getHTTPSNoNgix
-        ;;
-        12 )
-            getHTTPSNoNgix "trojan"
-        ;;
-        13 )
-            isTrojanGo="yes"
-            getHTTPSNoNgix "trojan"
-        ;;
-        14 )
-            isTrojanGo="yes"
-            isTrojanGoSupportWebsocket="true"
-            getHTTPSNoNgix "trojan"
-        ;;          
-        15 )
-            configV2rayWSorGrpc="ws"
-            getHTTPSNoNgix "v2ray"
-        ;;
-        16 )
-            configV2rayWSorGrpc="grpc"
-            getHTTPSNoNgix "v2ray"
-            
-        ;;                
-        17 )
-            configV2rayVlessMode="vlessgrpc"
-            getHTTPSNoNgix "v2ray"
-        ;; 
-        18 )
-            configV2rayVlessMode="vlessws"
-            getHTTPSNoNgix "v2ray"
-        ;; 
-        19 )
-            configV2rayVlessMode="vmessws"
-            getHTTPSNoNgix "v2ray"
-        ;;    
-
-        21 )
-            configV2rayVlessMode="vlessxtlsws"
-            getHTTPSNoNgix "v2ray"
-        ;; 
-        22 )
-            configV2rayVlessMode="trojan"
-            getHTTPSNoNgix "both"
-        ;;
-        23 )
-            configV2rayVlessMode="trojan"
-            isTrojanGo="yes"
-            getHTTPSNoNgix "both"
-        ;;    
-        24 )
-            configV2rayVlessMode="trojan"
-            isTrojanGo="yes"
-            isTrojanGoSupportWebsocket="true"
-            getHTTPSNoNgix "both"
-        ;;
-        25 )
-            configV2rayVlessMode="vlessxtlstrojan"
-            getHTTPSNoNgix "v2ray"
-        ;;          
-        27 )
-            removeTrojan
-        ;;    
-        28 )
-            isTrojanGo="yes"
-            removeTrojan
-        ;;
-        29 )
-            removeV2ray
-        ;;  
-                                                     
-        41 )
-            vps_superspeed
-        ;;
-        42 )
-            vps_bench
-        ;;        
-        43 )
-            vps_testrace
-        ;;
-        44 )
-            vps_LemonBench
-        ;;
-        45 )
-            vps_zbench
-        ;;
-        51 )
-            installPackage
-            vps_netflix
-        ;;                    
-        61 )
-            installBTPanel
-        ;;
-        62 )
-            installBTPanelCrack
-        ;;                              
-        62 )
-            installBTPanelCrack2
-        ;;                              
-        81 )
-            installBBR
-        ;;
-        82 )
-            installBBR2
-        ;;                              
-        9)
-            start_menu
-        ;;
-        0 )
-            exit 1
-        ;;
-        * )
-            clear
-            red "请输入正确数字 !"
-            sleep 2s
-            startMenuOther
-        ;;
-    esac
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
