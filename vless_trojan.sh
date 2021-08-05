@@ -1417,22 +1417,7 @@ function removeNginx(){
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
 function installTrojanV2rayWithNginx(){
-
-    stopServiceNginx
-    testLinuxPortUsage
-    installPackage
 
     green " ================================================== "
     yellow " 请输入绑定到本VPS的域名 例如www.xxx.com: (此步骤请关闭CDN后安装)"
@@ -1443,9 +1428,9 @@ function installTrojanV2rayWithNginx(){
 
     read configSSLDomain
 
-    echo
-
-    echo
+    stopServiceNginx
+    testLinuxPortUsage
+    installPackage
 
     isDomainSSLRequestInput="Y"
 
@@ -1828,7 +1813,7 @@ EOF
 	yellow "密码7: ${trojanPassword7}"
 	yellow "密码8: ${trojanPassword8}"
 	yellow "密码9: ${trojanPassword9}"
-	yellow "密码10: ${trojanPassword10}"
+	yellow "密���10: ${trojanPassword10}"
 	yellow "您指定前缀的密码共20个: 从 ${configTrojanPasswordPrefixInput}202001 到 ${configTrojanPasswordPrefixInput}202020 都可以使用"
 	yellow "例如: 密码:${configTrojanPasswordPrefixInput}202002 或 密码:${configTrojanPasswordPrefixInput}202019 都可以使用"
 
