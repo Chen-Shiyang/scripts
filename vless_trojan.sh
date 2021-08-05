@@ -710,43 +710,6 @@ function installBTPanelCrack2(){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 configNetworkRealIp=""
 configNetworkLocalIp=""
 configSSLDomain=""
@@ -1009,9 +972,7 @@ function getSSLByDifferentSite(){
 
 
     echo
-    green "默认通过 Letsencrypt.org 来申请证书, 如果证书申请失败, 例如一天内通过 Letsencrypt.org 申请次数过多, 可以选否通过 BuyPass.com 来申请."
-    read -p "是否通过 Letsencrypt.org 来申请证书? 默认直接回车为是, 选否则通过 BuyPass.com 来申请, 请输入[Y/n]:" isDomainSSLFromLetInput
-    isDomainSSLFromLetInput=${isDomainSSLFromLetInput:-Y}
+    isDomainSSLFromLetInput="y"
 
     if [[ $isDomainSSLFromLetInput == [Yy] ]]; then
         ${configSSLAcmeScriptPath}/acme.sh --issue -d ${configSSLDomain} --webroot ${configWebsitePath} --keylength ec-256 --server letsencrypt
@@ -2132,7 +2093,7 @@ function inputV2rayServerPort(){
 
 
     if [[ $1 == "textMainTrojanPort" ]]; then
-        isTrojanUserPortInput="443"
+        isTrojanUserPortInput=443
 		checkPortInUse "${isTrojanUserPortInput}" $1 
 	fi    
 }
@@ -2218,32 +2179,6 @@ function installV2ray(){
 
     V2rayUnlockText=""
 
-    if [[ $isV2rayUnlockGoogleInput == "2" ]]; then
-        V2rayUnlockText="\"geosite:google\""
-
-    elif [[ $isV2rayUnlockGoogleInput == "3" ]]; then
-        V2rayUnlockText="\"geosite:netflix\""
-        
-    elif [[ $isV2rayUnlockGoogleInput == "4" ]]; then
-        V2rayUnlockText="\"geosite:youtube\""
-
-    elif [[ $isV2rayUnlockGoogleInput == "5" ]]; then
-        V2rayUnlockText="\"geosite:netflix\", \"geosite:youtube\", \"geosite:bahamut\", \"geosite:hulu\", \"geosite:hbo\", \"geosite:disney\", \"geosite:bbc\", \"geosite:4chan\", \"geosite:fox\", \"geosite:abema\", \"geosite:dmm\", \"geosite:niconico\", \"geosite:pixiv\", \"geosite:viu\""
-
-    elif [[ $isV2rayUnlockGoogleInput == "11" ]]; then
-        V2rayUnlockText="\"geosite:google\", \"geosite:netflix\""
-
-    elif [[ $isV2rayUnlockGoogleInput == "12" ]]; then
-        V2rayUnlockText="\"geosite:google\", \"geosite:netflix\", \"geosite:youtube\""
-
-    elif [[ $isV2rayUnlockGoogleInput == "13" ]]; then
-        V2rayUnlockText="\"geosite:google\", \"geosite:netflix\", \"geosite:youtube\", \"geosite:bahamut\", \"geosite:hulu\", \"geosite:hbo\", \"geosite:disney\", \"geosite:bbc\", \"geosite:4chan\", \"geosite:fox\", \"geosite:abema\", \"geosite:dmm\", \"geosite:niconico\", \"geosite:pixiv\", \"geosite:viu\""
-    else
-        V2rayUnlockText=""
-    fi
-
-
-					
     echo
     isV2rayUserPassordInput=""
 
@@ -2356,13 +2291,6 @@ EOM
     else
         downloadAndUnzip "https://github.com/XTLS/Xray-core/releases/download/v${versionXray}/${downloadFilenameXray}" "${configV2rayPath}" "${downloadFilenameXray}"
     fi
-
-
-
-
-
-
-
 
     # 增加 v2ray 服务器端配置
 
