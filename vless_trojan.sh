@@ -4216,7 +4216,6 @@ function getHTTPSNoNgix(){
 
 
 function start_menu(){
-    clear
 
     if [[ $1 == "first" ]] ; then
         getLinuxOSRelease
