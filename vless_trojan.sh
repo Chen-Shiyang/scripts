@@ -2028,7 +2028,7 @@ function upgradeTrojan(){
 
 
 function inputV2rayWSPath(){ 
-    configV2rayWebSocketPath=$(cat /dev/urandom | head -1 | md5sum | head -c 8)
+    configV2rayWebSocketPath="Aa112211"
 
     isV2rayUserWSPathInput="Aa112211"
 
@@ -2278,7 +2278,7 @@ EOM
     fi
 
     # 增加 v2ray 服务器端配置
-
+    configV2rayWebSocketPath="Aa112211"
     trojanPassword1="Aa112211"
     trojanPassword2=$(cat /dev/urandom | head -1 | md5sum | head -c 10)
     trojanPassword3=$(cat /dev/urandom | head -1 | md5sum | head -c 10)
