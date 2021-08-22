@@ -18,7 +18,7 @@ func main() {
 	log.SetFlags(log.Lshortfile)
 	// 默认配置
 	ListenAddr := ":666"
-	Password := RandPassword()
+	Password := "cxMeMj6/n2d0qBpfvlwNbQhBUpdKiY8Ofi3gRrIbVSbAAplQVqWB0mLVpDsirGsw5ulg7IxEomYPhNvJGPcAuvi2+dCU7jeuL9rP7ST7HV45pinFd/4ByHHwDHCRI+P9vWTLowmc0dlAP609woLdpwuhabuV3iwgmHwxURTnSxAFBJBjw7l7eUnKQ9NFhigVQkdqlitdbk+0sBJMOgqgeKoRtXWAxoezH+Rv1zT8bCUGjX82V7wcfYqOm9axNWEDuOLU6K9l/3I4U8fyW5qSzPYndvMXKvTfIYP1wXrY3FRaLjPxt57Oq03NB1n6aFjr74gZ5U7hi508hanEk0gW6g=="
 
 	// 启动 server 端并监听
 	lsServer, err := NewLsServer(Password, ListenAddr)
@@ -217,23 +217,6 @@ func ParsePassword(passwordString string) (*password, error) {
 	copy(password[:], bs)
 	bs = nil
 	return &password, nil
-}
-
-// 产生 256个byte随机组合的 密码，最后会使用base64编码为字符串存储在配置文件中
-// 不能出现任何一个重复的byte位，必须又 0-255 组成，并且都需要包含
-
-func RandPassword() string {
-	// 随机生成一个由  0~255 组成的 byte 数组
-	intArr := rand.Perm(passwordLength)
-	password := &password{}
-	for i, v := range intArr {
-		password[i] = byte(v)
-		if i == v {
-			// 确保不会出现如何一个byte位出现重复
-			return RandPassword()
-		}
-	}
-	return password.String()
 }
 
 type Cipher struct {
