@@ -538,9 +538,9 @@ inbound:
         remote-addr: 127.0.0.1
         remote-port: 80
         ssl:
-          sni: ${CERT_FILE}
+          sni: ${DOMAIN}
           key: ${KEY_FILE}
-          cert: ${DOMAIN}
+          cert: ${CERT_FILE}
 
     - protocol: trojan
       tag: trojan1
@@ -765,7 +765,7 @@ showInfo() {
     echo -n " trojan-go运行状态："
     statusText
     echo ""
-    echo -e " ${BLUE}trojan-go配置文件: ${PLAIN} ${RED}${CONFIG_FILE}${PLAIN}"
+    echo -e " ${BLUE}trojan-go配置文件: ${PLAIN} ${RED}${CONFIG_FILE_YAML}${PLAIN}"
     echo -e " ${BLUE}trojan-go配置信息：${PLAIN}"
     echo -e "   IP：${RED}$IP${PLAIN}"
     echo -e "   伪装域名/主机名(host)/SNI/peer名称：${RED}$domain${PLAIN}"
@@ -790,7 +790,6 @@ showLog() {
 }
 
 menu() {
-    clear
     echo "#############################################################"
     echo -e "#                    ${RED}trojan-go一键安装脚本${PLAIN}                  #"
     echo -e "# ${GREEN}作者${PLAIN}: 网络跳越(hijk)                                      #"
