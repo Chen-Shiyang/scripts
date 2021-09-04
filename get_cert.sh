@@ -27,20 +27,9 @@ if [[ "$res" != "" ]]; then
     NGINX_CONF_PATH="/www/server/panel/vhost/nginx/"
 fi
 
-ZIP_FILE="trojan-go"
 CONFIG_FILE="/etc/trojan-go/config.json"
-CONFIG_FILE_YAML="/etc/trojan-go/config.yaml"
-
-WS="false"
-PASSWORD="Aa112211"
 PORT="443"
-WSPATH="/Aa112211"
 
-echo net.core.default_qdisc=fq >> /etc/sysctl.conf
-echo net.ipv4.tcp_congestion_control=bbr >> /etc/sysctl.conf
-sysctl -p
-sysctl net.ipv4.tcp_available_congestion_control
-lsmod | grep bbr
 
 install() {
     getData
