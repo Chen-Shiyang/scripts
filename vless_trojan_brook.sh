@@ -936,7 +936,7 @@ function compareRealIpWithLocalIp(){
     echo
     echo
 
-    isDomainValidInput="y"
+    isDomainValidInput="n"
 
     if [[ $isDomainValidInput == [Yy] ]]; then
         if [ -n $1 ]; then
