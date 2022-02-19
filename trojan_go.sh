@@ -226,7 +226,7 @@ getData() {
             if [[ -z "${res}" ]]; then
                 echo " ${DOMAIN} 解析结果：${resolve}"
                 echo -e " ${RED}伪装域名未解析到当前服务器IP(${IP})!${PLAIN}"
-                exit 1
+                # exit 1
             fi
         fi
     else
