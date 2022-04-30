@@ -1,3 +1,4 @@
+cat > /root/open_port.sh <<EOF
 setFirewall() {
     PORT="443"
     res=`which firewall-cmd 2>/dev/null`
@@ -47,3 +48,20 @@ setFirewall() {
     fi
 }
 setFirewall
+EOF
+
+cat > /etc/systemd/system/openPort.service <<EOF
+[Unit]
+Description=openPort
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=bash /root/open_port.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl start openPort
+systemctl enable openPort
