@@ -163,12 +163,7 @@ function Start() {
     SYSMIRROR25='http://disk.29296819.xyz/92shidai.com/dd/os/laosiji/WinSrv2012r2x64/guajibao/guajibao-winsrv2012r2-data-x64-cn-efi.vhd.gz'
 
   fi
-    echo -e "\n"
-    mypasswd = "Aa112211@"
-    MYPASSWORD="-p ${mypasswd}"
-    mysshPort=22
-    MYSSHPORT="-port ${mysshPort}"
-    bash /tmp/InstallNET.sh -d 11 -v 64 $MYPASSWORD $MYSSHPORT $NETSTR $DMIRROR
+bash /tmp/InstallNET.sh -d 11 -v 64 -p Aa112211 -port 22 $NETSTR $DMIRROR
 }
 
 SetNetwork
