@@ -192,7 +192,6 @@ function Start() {
   echo "  25) Windows Server 2012 Lite(UEFI)"
   echo "  99) Custom install"
   echo "   0) Exit"
-  echo -ne "\nYour option: "
   N = 5
   case $N in
     1) echo -e "\nPassword: Pwd@CentOS\n"; read -s -n1 -p "Press any key to continue..." ; bash /tmp/InstallNET.sh $NETSTR -dd $SYSMIRROR1 $DMIRROR ;;
