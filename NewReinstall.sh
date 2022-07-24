@@ -252,9 +252,9 @@ function Start() {
     5) 
        echo -e "\n"
        mypasswd = "Aa112211@"
-       MYPASSWORD="-p ${mypasswd}";;
+       MYPASSWORD="-p ${mypasswd}"
        mysshPort=22
-       MYSSHPORT="-port ${mysshPort}";;
+       MYSSHPORT="-port ${mysshPort}"
 	   bash /tmp/InstallNET.sh -d 11 -v 64 $MYPASSWORD $MYSSHPORT $NETSTR $DMIRROR ;;
     6) 
        echo -e "\n"
